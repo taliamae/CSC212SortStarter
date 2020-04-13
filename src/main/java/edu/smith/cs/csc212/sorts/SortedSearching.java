@@ -38,9 +38,27 @@ public class SortedSearching {
 	 * @param dataset - the list you're searching!
 	 * @return -1 if not found or the position if found.
 	 */
+	//Help from https://www.geeksforgeeks.org/binary-search/
 	public static int binarySearchIterative(int findMe, ListADT<Integer> dataset) {
-		throw new TODOErr();
+		int left = 0;
+		int right = dataset.size() - 1;
+		while (left <= right) {
+			int middle = left + (right-left) / 2;
+
+			if (findMe == dataset.getIndex(middle)) {
+				return middle;
+			} else if (findMe < dataset.getIndex(middle)) {
+				right = middle - 1;
+			} else if (findMe > dataset.getIndex(middle)) {
+				left = middle + 1;
+			} else {
+				break;
+			}
+		}
+		return -1;
 	}
+
+	
 
 	/**
 	 * Find an integer in the sorted list dataset by recursive binary search.
@@ -51,8 +69,24 @@ public class SortedSearching {
 	 * @param right - the farthest right index it could possibly be (default=dataset.size()).
 	 * @return -1 if not found, or the index of findMe in dataset.
 	 */
+	//Help from https://www.geeksforgeeks.org/binary-search/
 	private static int binarySearchR(int findMe, ListADT<Integer> dataset, int left, int right) {
-		throw new TODOErr();
+		if (right >= left) {
+			int mid = left + (right - left) / 2;
+			
+			if (mid == findMe) {
+				return mid;
+			}
+			
+			if (mid < findMe) {
+				return binarySearchR(findMe, dataset, mid + 1, right);
+			} 
+			
+			if (mid > findMe) {
+				return binarySearchR(findMe, dataset, left, mid - 1);
+			}
+		}
+		return -1;
 	}
 	
 	/**
