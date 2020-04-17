@@ -14,7 +14,24 @@ public class MergeSort {
 	 */
 	public static ListADT<Integer> combineTwoSortedLists(ListADT<Integer> lhs, ListADT<Integer> rhs) {
 		ListADT<Integer> output = new JavaList<>();
-		throw new TODOErr();
+		while (!lhs.isEmpty() && !rhs.isEmpty()) {
+			if (lhs.getFront() > rhs.getFront()) {
+				output.addBack(rhs.getFront());
+				rhs.removeFront();
+				continue;
+			} else {
+				output.addBack(lhs.getFront());
+				lhs.removeFront();
+				continue;
+			}
+		}
+		
+		if (rhs.isEmpty())	{
+			output.addAll(lhs);
+		} else if (lhs.isEmpty()) {
+			output.addAll(rhs);
+		}
+		return output;
 	}
 	
 	/**
@@ -25,7 +42,16 @@ public class MergeSort {
 	 * @return a new list containing the sorted output.
 	 */
 	public static ListADT<Integer> doMergeSortRecursively(ListADT<Integer> input) {
-		throw new TODOErr();
+		int mid = input.size()/2;
+		if (input.size()<=1) {
+			return input;
+		} else {
+			ListADT<Integer> left = input.slice(0, mid);
+			ListADT<Integer> right = input.slice(mid, input.size());
+			left = doMergeSortRecursively(left);
+			right = doMergeSortRecursively(right);
+			return combineTwoSortedLists(left, right);
+		}
 	}
 	
 	/**
@@ -36,6 +62,22 @@ public class MergeSort {
 	 * @return a new list containing the sorted output.
 	 */
 	public static ListADT<Integer> doMergeSortIteratively(ListADT<Integer> input) {
-		throw new TODOErr();
+		ListADT<ListADT<Integer>> work = new JavaList<>();
+		for (int i=0; i<input.size(); i++) {
+			ListADT<Integer> elem = new JavaList<>();
+			elem.addBack(input.getIndex(i));
+			work.addBack(elem);
+			System.out.println(work.size());
+		}
+		
+		while (work.size()>1) {
+			
+			work.addBack(combineTwoSortedLists(work.getIndex(0), work.getIndex(1)));
+			work.removeFront();
+			work.removeFront();
+			System.out.println(work.size());
+		}
+		
+		return work.getBack();
 	}
 }

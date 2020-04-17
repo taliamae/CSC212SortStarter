@@ -13,7 +13,17 @@ public class SlowSorts {
 	 * @return true if they are sorted, false if not.
 	 */
 	public static boolean isSorted(ListADT<Integer> data) {
-		throw new TODOErr();
+		if (data.size() < 2) {
+			return true;
+		}
+		for (int i=0; i<data.size()-1; i++) {
+			if (data.getIndex(i) <= data.getIndex(i+1)) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
 	}
 
 
@@ -25,7 +35,18 @@ public class SlowSorts {
 	 * @param target - the sorted list to modify (might be empty!)
 	 */
 	public static void insertSorted(int x, ListADT<Integer> target) {
-		throw new TODOErr();
+		if (target.size()==0 || x > target.getIndex(target.size()-1)) {
+			target.addBack(x);
+			return;
+		}
+		for (int i=0; i<target.size(); i++) {
+			int at = target.getIndex(i);
+			if (x <= at) {
+				target.addIndex(i, x);
+				break;
+			}
+		}
+		
 	}
 
 	/**
@@ -37,9 +58,16 @@ public class SlowSorts {
 	 * @return the position (int greater than start) of the minimum element.
 	 */
 	public static int findMinPosition(ListADT<Integer> list, int start) {
+		int small = list.getIndex(start);
+		int ind = start;
 		assert (start < list.size()) : "There should be stuff in the list to the right of start!";
-
-		throw new TODOErr();
+		for (int i=start; i<list.size()-1; i++) {
+			if (list.getIndex(i)<small) {
+				small = list.getIndex(i);
+				ind = i;
+			}
+		}
+		return ind;
 	}
 
 	/**
@@ -51,8 +79,13 @@ public class SlowSorts {
 	 */
 	public static ListADT<Integer> insertionSort(ListADT<Integer> input) {
 		ListADT<Integer> output = new JavaList<>();
-		throw new TODOErr();
-	}
+		for (int i : input) {
+			insertSorted(i, output);
+			
+			}
+		return output;
+		}
+		
 
 	/**
 	 * SelectionSort: Move through the input list left-to-right and swap the minimum
@@ -65,7 +98,10 @@ public class SlowSorts {
 	 *              in-place.
 	 */
 	public static void selectionSort(ListADT<Integer> fixMe) {
-		throw new TODOErr();
+		for (int i=0; i<fixMe.size()-1; i++) {
+			int min = findMinPosition(fixMe, i);
+			fixMe.swap(min, i);
+		}
 	}
 
 }
